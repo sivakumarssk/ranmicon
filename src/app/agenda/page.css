@@ -1,0 +1,18 @@
+
+.pdfCon{
+    width:65%;
+    margin-inline:18%;
+    margin-block: 5%;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    border: 2px solid
+}
+
+@media (max-width:768px) {
+    .pdfCon{
+        width:75%;
+        margin-inline:12.5%;
+        margin-block: 5%;
+    }
+}
