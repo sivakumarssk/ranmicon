@@ -12,14 +12,14 @@ const Footer: React.FC = () => {
           <div className="row">
             <div className="col-lg-6 col-md-6">
               <div className="single-footer-widget">
-                <h3>Venue Location</h3>
-                <span>
+                <h3>Contact Infomation</h3>
+                {/* <span>
                   <i className="icofont-calendar"></i> February 24-26, 2025
                 </span>
 
                 <p className="location">
                   <i className="icofont-google-map"></i> San Francisco, CA
-                </p>
+                </p> */}
 
                 <Link href="/contact-us" className="contact-authority">
                   <i className="icofont-phone"></i> Contact Our Authority

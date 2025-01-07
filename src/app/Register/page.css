@@ -1,0 +1,84 @@
+.plans-container {
+  display: flex; /* Enable Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  min-height: 100vh; /* Ensure the container takes the full viewport height */
+  padding: 20px; /* Add some padding for better appearance */
+  background-color: #f5f5f5; /* Optional: Add a background color */
+}
+
+.form-section {
+  width: 100%;
+  max-width: 70%; /* Limit the form's maximum width */
+  background-color: #ffffff; /* White background for the form */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow for a floating effect */
+  padding: 20px; /* Add some padding inside the form */
+  border-radius: 8px; /* Add rounded corners */
+}
+
+.plans-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.plans-table th,
+.plans-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.plans-table th {
+  background-color: #f8cb00;
+  color: white;
+}
+
+.plans-table th.active-plan {
+  background-color: #4caf50;
+  color: white;
+}
+
+.plans-table th.inactive-plan {
+  background-color: #ffc107;
+  color: black;
+}
+
+.accommodations-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.accommodations-table th,
+.accommodations-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.accommodations-table th {
+  background-color: #4caf50;
+  color: white;
+}
+
+.plan-head{
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.submit-button{
+  justify-self: center;
+  align-self: center;
+}
+.total-price-container,.submit-button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-block: 20px;
+}
+
+/* .plansSubCon{ */
+  /* margin-inline: 10%;
+  margin-block: 8%;
+} */

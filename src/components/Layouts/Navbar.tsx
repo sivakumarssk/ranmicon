@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
     <>
       <div id="navbar" className="elkevent-nav">
         <nav className="navbar navbar-expand-lg navbar-light">
-          <div className="container">
+          <div className="container" style={{maxWidth:'1350px'}}>
             <Link href="/" className="navbar-brand">
               <Image
                 src="/images/own/logo.png"

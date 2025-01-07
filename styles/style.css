@@ -1711,14 +1711,24 @@ Schedule CSS
 }
 .event-tabs .react-tabs__tab-panel .accordion .accordion__item .accordion__button {
   background-color: transparent;
-  display: flex;
-  position: relative;
+  /* display: flex; */
+  /* position: relative; */
   align-items: center !important;
   padding-left: 25px;
-  padding-right: 140px;
-  padding-bottom: 35px;
-  padding-top: 35px;
+  padding-right: 25px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
+
+.schedule-info{
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+.schedule-info h3{
+  width: 85%;
+}
+
 .event-tabs .react-tabs__tab-panel .accordion .accordion__item .accordion__button::before {
   display: none;
 }
@@ -2125,6 +2135,8 @@ Schedule CSS
 .single-schedule-item .schedule-item-wrapper .schedule-content .schedule-info ul li a:hover, .single-schedule-item .schedule-item-wrapper .schedule-content .schedule-info ul li a:focus {
   color: #FF2D55;
 }
+
+
 .single-schedule-item .schedule-item-wrapper .schedule-content:last-child {
   border-bottom: none;
 }
@@ -2299,6 +2311,9 @@ Pricing CSS
   padding: 35px 0;
   margin-bottom: 0;
   list-style-type: none;
+  max-height: 280px;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 .pricing-table-box .pricing-content li {
   color: #707070;

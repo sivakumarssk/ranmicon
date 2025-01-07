@@ -1,3 +1,5 @@
+"use client"
+
 import Navbar from "@/components/Layouts/Navbar";
 import MainBanner from "@/components/HomeDefault/MainBanner";
 import AboutUsContent from "@/components/HomeDefault/AboutUsContent";
@@ -13,31 +15,63 @@ import Subscribe from "@/components/Common/Subscribe";
 import Footer from "@/components/Layouts/Footer";
 import Topics from "@/components/HomeDefault/Topics";
 import Speakerskey from "@/components/HomeDefault/Speakerskey";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface HomeData {
+  // Define the structure of the expected data from the API response
+  [key: string]: any; // Replace with specific keys and types if known
+}
+
 
 export default function Home() {
+
+  const [homeData, setHomeData] = useState<HomeData>({});
+
+  const homeApi = async (): Promise<void> => {
+    try {
+      const response = await axios.get("https://admin.emdcconference.com/api/");
+      // console.log(response,'ghnfgh');
+      setHomeData(response.data);
+    } catch (error: any) {
+      console.error(error);
+      alert(error.response?.data?.error || "An error occurred");
+    }
+  };
+
+
+
+  // console.log(homeData);
+  
+  useEffect(()=>{
+    homeApi()
+  },[])
+
   return (
     <>
       <Navbar />
 
-      <MainBanner />
+      <MainBanner data={homeData}/>
 
-      <AboutUsContent />
+      <AboutUsContent data={homeData}/>
 
-      <Topics/>
+      <Speakerskey data={homeData?.KeynoteSpeakers}/>
+      
+      <Speakers data={homeData?.speaker}/>
+
+
+      <Topics data={homeData} />
 
       <WhyUs />
       
 
-      <EventSchedules />
+      <EventSchedules data={homeData} />
 
-      <Speakerskey />
-      
-      <Speakers />
 
 
       {/* <FunFact /> */}
 
-      <Register />
+      <Register data={homeData} />
 
       {/* <Partner /> */}
 

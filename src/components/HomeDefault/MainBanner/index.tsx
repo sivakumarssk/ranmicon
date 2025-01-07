@@ -6,7 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import Countdown from "./Countdown";
 
-const MainBanner: React.FC = () => {
+
+interface MainBannerProps {
+  data: {
+    [key: string]: any; // Replace with specific keys and types if known
+  };
+}
+
+const MainBanner: React.FC<MainBannerProps> = ({ data }) => {
   const [toggler, setToggler] = useState(false);
 
   return (
@@ -19,7 +26,7 @@ const MainBanner: React.FC = () => {
       <div
         className="main-banner"
         style={{
-          backgroundImage: `url(/images/own/background.jpg)`,
+          backgroundImage: `url(https://admin.emdcconference.com${data?.backgroundImage})`,
           backgroundSize: 'cover'
         }}
       >
@@ -33,32 +40,31 @@ const MainBanner: React.FC = () => {
                   marginBlock: '10px', marginTop: '40px'
                 }}>
 
-                  <Image
+                  {/* <Image
                   className="usaimg"
                     src={"/images/own/usg-logo.png"}
                     alt="usg-logo"
                     width={157}
-                    height={157} />
+                    height={157} /> */}
                 </div>
 
                 {/* <div className="headingCon"> */}
 
-                <p className="ptag" style={{ fontWeight: 700 }} >
-                  7TH <span>INTERNATIONAL</span> CONFERENCE ON
-                </p>
-                <h2 className="headmain-h2-tag">
-                  PharmScience <br /> <span style={{ color: '#efa505' }}>Research & Development</span>
-                </h2>
+                <p
+          dangerouslySetInnerHTML={{
+            __html: data?.conferenceHead || "<span>No content available</span>",
+          }}
+        ></p>
 
                 {/* </div> */}
 
                 <ul>
                   <li>
-                    <i className="icofont-compass"></i> San Francisco, CA
+                    <i className="icofont-compass"></i> {data?.conferencepalce}
                   </li>
                   <li>
                     <i className="icofont-calendar"></i>
-                    February 24-26, 2025
+                    {data?.conferencedate}
                   </li>
                 </ul>
 

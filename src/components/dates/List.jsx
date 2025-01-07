@@ -13,7 +13,7 @@ import Image from "next/image";
 
 import './List.css'
 
-const List = ({heading}) => {
+const List = ({heading,data}) => {
   return (
     <>
      <div className="listMain">
@@ -23,36 +23,25 @@ const List = ({heading}) => {
                 </div>
 
 
-                <div className="list-item-div">
-                    <h4 style={{color:'#e79391'}}>Hello:</h4>
+                {
+                    data.map((each)=>{
+                        return(
+                            <div className="list-item-div">
+                    <h4 style={{color:'#e79391'}}>{each.head}</h4>
                     <p style={{fontSize:'18px',gap:'50px'}}>
-                    <i className="icofont-calendar"></i>  February 24-26, 2025 </p>
+                    <i className="icofont-calendar"></i> {each.date}</p>
                 </div>
+                        )
+                    })
+                }
 
-                <div className="list-item-div">
-                    <h4 style={{color:'#e79391'}}>Hello:</h4>
-                    <p style={{fontSize:'18px',gap:'50px'}}>
-                    <i className="icofont-calendar"></i>  February 24-26, 2025 </p>
-                </div>
 
-                <div className="list-item-div">
+                {/* <div className="list-item-div">
                     <h4 style={{color:'#e79391'}}>Hello:</h4>
                     <p style={{fontSize:'18px',gap:'50px'}}>
                     <i className="icofont-calendar"></i>  February 24-26, 2025 </p>
                 </div>
-
-                <div className="list-item-div">
-                    <h4 style={{color:'#e79391'}}>Hello:</h4>
-                    <p style={{fontSize:'18px',gap:'50px'}}>
-                    <i className="icofont-calendar"></i>  February 24-26, 2025 </p>
-                </div>
-
-                <div className="list-item-div">
-                    <h4 style={{color:'#e79391'}}>Hello:</h4>
-                    <p style={{fontSize:'18px',gap:'50px'}}>
-                    <i className="icofont-calendar"></i>  February 24-26, 2025 </p>
-                </div>
-                
+                 */}
             </div>
     </>
   );

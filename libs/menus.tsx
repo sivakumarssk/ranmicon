@@ -51,6 +51,28 @@ export const menus = [
   },
 
   {
+    label: "Guidelines",
+    link: "#",
+    submenu: [
+      {
+        label: "speaker",
+        link: "/guidelines/",
+      }, 
+      {
+        label: "poster",
+        link: "/guidelines/poster/",
+      }, 
+      {
+        label: "chair",
+        link: "/guidelines/chair/",
+      }, {
+        label: "virtual",
+        link: "/guidelines/virtual/",
+      },
+    ]
+  },
+  
+  {
     label: "Dates",
     link: "/dates/",
   },

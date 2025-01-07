@@ -3,16 +3,30 @@
     width:65%;
     margin-inline:18%;
     margin-block: 5%;
+    margin-top: 3%;
     display:flex;
     justify-content:center;
     align-items: center;
     border: 2px solid
 }
 
+.datesContainer{
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    gap: 1%;
+}
+
+/* .datesContainer button {
+    
+} */
+
 @media (max-width:768px) {
     .pdfCon{
-        width:75%;
-        margin-inline:12.5%;
+        width:100%;
+        margin-inline:0%;
         margin-block: 5%;
     }
 }

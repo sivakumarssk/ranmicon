@@ -1,16 +1,86 @@
-// File: src/components/FormUI.jsx
+"use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./page.css";
 import Navbar from "@/components/Layouts/Navbar";
 import PageBanner from "@/components/Common/PageBanner";
 import Footer from "@/components/Layouts/Footer";
 
 const Page = () => {
+    const [topicData, setTopicData] = useState([]);
+    const [formData, setFormData] = useState({
+        title: "Dr.",
+        name: "",
+        email: "",
+        organization: "",
+        phone: "",
+        city: "",
+        country: "",
+        interestedIn: "Poster Presentation",
+        sessions: "",
+        attachFile: null,
+    });
+
+    // Fetch topics from the API
+    const abstractApi = async () => {
+        try {
+            const response = await axios.get("https://admin.emdcconference.com/api/topic");
+            setTopicData(response.data);
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.error || "An error occurred");
+        }
+    };
+
+    useEffect(() => {
+        abstractApi();
+    }, []);
+
+    // Handle input changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    // Handle file input
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setFormData((prevData) => ({
+            ...prevData,
+            attachFile:file,
+        }));
+    };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formDataToSend = new FormData();
+        for (const key in formData) {
+            formDataToSend.append(key, formData[key]);
+        }
+
+        try {
+            const response = await axios.post("https://admin.emdcconference.com/api/uploadAbstract", formDataToSend, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            alert("Abstract submitted successfully!");
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.error || "An error occurred during submission.");
+        }
+    };
+
     return (
         <>
             <Navbar />
-
             <PageBanner
                 pageTitle="Abstract"
                 shortText="Get Your Tickets"
@@ -19,21 +89,11 @@ const Page = () => {
                 activePageText="Abstract"
                 bgImg="/images/own/slide2.jpg"
             />
-
-            <div className="temp">
-                <button className="tempbtn">
-                    <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fpharmscience.unitedscientificgroup.org%2FAbstract_Template.doc&wdOrigin=BROWSELINK"
-                        target="blank" style={{ color: 'white' }}>Abstract Template</a>
-                </button>
-            </div>
-
-
             <div className="form-container">
-                {/* Form Section */}
-                <form className="form-section">
+                <form className="form-section" onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="title">Title</label>
-                        <select id="title" name="title">
+                        <select id="title" name="title" value={formData.title} onChange={handleInputChange}>
                             <option value="Dr.">Dr.</option>
                             <option value="Mr.">Mr.</option>
                             <option value="Ms.">Ms.</option>
@@ -42,11 +102,27 @@ const Page = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name" />
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder="Enter your name"
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" />
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            placeholder="Enter your email"
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label htmlFor="organization">Organization/Institution</label>
@@ -54,35 +130,50 @@ const Page = () => {
                             type="text"
                             id="organization"
                             name="organization"
+                            value={formData.organization}
+                            onChange={handleInputChange}
                             placeholder="Organization/Institution"
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="telephone">Telephone</label>
+                        <label htmlFor="phone">Phone</label>
                         <input
                             type="tel"
-                            id="telephone"
-                            name="telephone"
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
                             placeholder="Enter your phone number"
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="city">City</label>
-                        <input type="text" id="city" name="city" placeholder="Enter your city name" />
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleInputChange}
+                            placeholder="Enter your city name"
+                        />
                     </div>
                     <div className="form-group">
                         <label htmlFor="country">Country</label>
-                        <select id="country" name="country">
+                        <select id="country" name="country" value={formData.country} onChange={handleInputChange}>
                             <option value="">Select country</option>
                             <option value="USA">USA</option>
                             <option value="India">India</option>
                             <option value="UK">UK</option>
-                            {/* Add more options here */}
                         </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="interestedIn">Interested In</label>
-                        <select id="interestedIn" name="interestedIn">
+                        <select
+                            id="interestedIn"
+                            name="interestedIn"
+                            value={formData.interestedIn}
+                            onChange={handleInputChange}
+                        >
                             <option value="Poster Presentation">Poster Presentation</option>
                             <option value="Oral Presentation">Oral Presentation</option>
                             <option value="Workshop">Workshop</option>
@@ -90,83 +181,53 @@ const Page = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="sessions">Sessions</label>
-                        <select id="sessions" name="sessions">
+                        <select id="sessions" name="sessions" value={formData.sessions} onChange={handleInputChange}>
                             <option value="">Select</option>
-                            {/* Add session options dynamically if needed */}
+                            {topicData.map((topic, index) => (
+                                <option key={index} value={topic}>
+                                    {topic}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="file">Attach File</label>
-                        <input type="file" id="file" name="file" />
+                        <input type="file" id="file" name="file" onChange={handleFileChange} />
                         <p className="file-info">
-                            Upload less than 8 MB file (Suggested Formats: doc, .docx, .pdf)
+                            Upload less than 8 MB file (Suggested Formats: .doc, .docx, .pdf)
                         </p>
                     </div>
-
-                    <div className="form-group template" >
-                        <label htmlFor="file">Attach File</label>
-                        <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fpharmscience.unitedscientificgroup.org%2FAbstract_Template.doc&wdOrigin=BROWSELINK"
-                            target="blank">Abstract Template</a>
-                    </div>
-
                     <div className="form-group">
-                        <button type="submit" className="submit-button">Submit Abstract</button>
+                        <button type="submit" className="submit-button">
+                            Submit Abstract
+                        </button>
                     </div>
                 </form>
 
-                {/* Topics Section */}
                 <div className="topics-section">
                     <h3>Topics</h3>
                     <ul className="topics-list">
-                        {[
-                            "Drug Discovery & Development",
-                            "Pre-clinical Research",
-                            "Drug Screening & Designing",
-                            "Drug Delivery Systems",
-                            "Pharmaceutical Product Development",
-                            "Pharmaceutical Manufacturing",
-                            "Quality Control & Quality Assurance",
-                            "Clinical Trails & Case Studies",
-                            "Pharmacotherapeutics", ,
-                            "Regulatory & HTA Review",
-                            "FDA Approvals",
-                            "Product Management",
-                            "Market Prediction",
-                            "Existing Drugs Enhancement",
-                            "Pharmaceutical Chemistry",
-                            "PKPD/Biopharmaceutics",
-                            "Pharmaceutical Statistics",
-                            "Pharmacology & Toxicology",
-                            "Pharmaceutical Analysis",
-                            "Pharmacogenomics",
-                            "Natural Product Chemistry",
-                            "Safety & Monitoring",
-                            "Personalized Medicine",
-                            "Education & Practice",
-                            "Nanomedicine",
-                            "Industrial Pharmacy",
-                            "Covid & Healthcare",
-                            "Artificial Intelligence in R&D",
-                        ].map((topic, index) => (
+                        {topicData.map((topic, index) => (
                             <li key={index}>
                                 <button className="topic-item">{topic}</button>
                             </li>
                         ))}
                     </ul>
                 </div>
+                
             </div>
 
-            <div className="content-div" style={{ }}>
+            {/* <div className="content-div" style={{ }}>
                 <div>
                     <h3 style={{ color: '#F97916' }}>Review Process</h3><br></br>
-                    <p>USG United Scientific Group and the organizing committee members of Pharma R&D-2025 ensures a rigorous, high-quality and unbiased peer review process for all abstracts submitted to the conference. The decision of abstract acceptance will be judged by a panel of expert reviewers and / or session chair and / or conference chairman emphasizing whether the findings and / or conclusions are novel and make useful contributions to the field.</p>
+                    <p>USG United Scientific Group and the organizing committee members of Pharma R&D ensures a rigorous, high-quality and unbiased peer review process for all abstracts submitted to the conference. The decision of abstract acceptance will be judged by a panel of expert reviewers and / or session chair and / or conference chairman emphasizing whether the findings and / or conclusions are novel and make useful contributions to the field.</p>
 
                     <p>The committee will determine whether the abstract is more appropriate for oral or poster presentation. Eligibility for oral or poster presentation will be determined by the total score (with adjustment for differential scoring behavior between referees).</p>
 
                     <p>The committee operates a single / double-blind peer review process for all the abstracts submitted, where both the reviewer and the author remain anonymous.</p>
 
 
-                    <h5>The following are the steps that each abstract of Pharma R&D-2025 undergoes during the process of peer review:</h5>
+                    <h5>The following are the steps that each abstract of Pharma R&D undergoes during the process of peer review:</h5>
                     <p>
                         ✔ All submitted abstracts are reviewed by internal editorial team to ensure adherence to the conference scope and abstracts which have passed this initial screening are then assigned to the session chair / review committee for evaluation.<br></br>
                         ✔ The session chair / review committee decides whether reviews from appropriate independent experts / reviewers are needed to evaluate the abstract. External reviewer (s) evaluate majority of the submissions, but it is up to the session chair / review committee to determine the number of reviews required.<br></br>
@@ -259,9 +320,8 @@ const Page = () => {
                     </p>
 
                 </div>
-            </div>
-
-
+            </div> */}
+            
             <Footer />
         </>
     );

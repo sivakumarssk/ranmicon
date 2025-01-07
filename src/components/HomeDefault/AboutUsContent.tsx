@@ -1,8 +1,26 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const AboutUsContent: React.FC = () => {
+interface MainBannerProps {
+  data: {
+    [key: string]: any; // Replace with specific keys and types if known
+  };
+}
+
+
+
+const AboutUsContent: React.FC<MainBannerProps>  = ({data}) => {
+
+  const getFullImageUrl = (path?: string): string => {
+    return path ? `https://admin.emdcconference.com${path}` : "/images/own/a1.jpg";
+  };
+  
+  // {console.log(`https://admin.emdcconference.com${data.aboutImage1}`)}
+  // console.log(data);
+  
   return (
     <>
       <div className="about-area ptb-120 bg-image">
@@ -12,20 +30,13 @@ const AboutUsContent: React.FC = () => {
               <div className="about-content">
                 <span>Join The Event</span>
                 <h2>
-                Shaping the Future of <b>Pharma:</b> Advancing Innovation and Collaboration
+                {data?.aboutHeading}
                 </h2>
-                <p>
-                The 7th International Conference on PharmScience Research & Development is scheduled to take place in San Francisco, CA from February 24 to 26, 2025. This dynamic event, organized by United Scientific Group (USG), a non-profit organization, is dedicated to advancing the field of pharmaceutical science for medical and biophysical chemists across the pharmaceutical, biotech, and academic sectors.
-
-
-                </p>
-                <p>
-                The conference will deeply explore the discovery and optimization of small-molecule drug candidates, offering a diverse array of presentations across multiple concurrent tracks. Audiences will have the opportunity to tailor their experience to their specific interests, focusing on current trends, challenges, and opportunities in pharma R&D.
-                </p>
-                <p>
-                Attendees can expect engaging discussions, potential collaborations, and valuable networking opportunities with leading professionals in the Pharma R&D community. The presentations will be of exceptional quality and highly relevant, addressing critical topics and fostering meaningful connections. This conference promises to be a pivotal platform for advancing knowledge and expanding professional networks.
-                </p>
-
+                <p
+          dangerouslySetInnerHTML={{
+            __html: data?.aboutDes || "<span>No content available</span>",
+          }}
+        ></p>
                 {/* <div className="signature">
                   <Image
                     src="/images/signature.png"
@@ -40,23 +51,23 @@ const AboutUsContent: React.FC = () => {
                   <i className="icofont-double-right"></i>
                 </Link> */}
 
-                <Link href="/Register" className="btn btn-secondary">
+                {/* <Link href="/Register" className="btn btn-secondary">
                 Register
-                </Link>
+                </Link> */}
               </div>
             </div>
 
             <div className="col-lg-6">
               <div className="about-image">
                 <Image
-                  src="/images/own/a1.jpg"
+                  src={getFullImageUrl(data?.aboutImage1)}
                   className="about-img1"
                   width={750}
                   height={500}
                   alt="about"
                 />
                 <Image
-                  src="/images/own/a2.jpg"
+                  src={getFullImageUrl(data?.aboutImage2)}
                   className="about-img2"
                   alt="about"
                   width={309}

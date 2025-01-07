@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Layouts/Navbar";
 import PageBanner from "@/components/Common/PageBanner";
 import ContactForm from "@/components/ContactUs/ContactForm";

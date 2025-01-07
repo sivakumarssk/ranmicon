@@ -8,9 +8,19 @@ GlobalWorkerOptions.workerSrc = "/pdf.worker.mjs";
 
 const PdfViewer = ({ pdfUrl }) => {
     const canvasContainerRef = useRef();
+    const currentPdfUrl = useRef(""); // Track the currently rendered PDF URL
+    const currentViewportWidth = useRef(0); // Track container width to avoid unnecessary renders
 
     const renderPdf = async () => {
         if (!pdfUrl || !canvasContainerRef.current) return;
+
+        // If the current URL matches the rendered PDF, skip re-rendering
+        if (currentPdfUrl.current === pdfUrl) {
+            return;
+        }
+
+        // Update the current PDF URL
+        currentPdfUrl.current = pdfUrl;
 
         // Clear any existing canvases before rendering
         const canvasContainer = canvasContainerRef.current;
@@ -43,13 +53,30 @@ const PdfViewer = ({ pdfUrl }) => {
     };
 
     useEffect(() => {
-        renderPdf();
-        // Add a resize event listener to re-render the PDF when the container size changes
-        const handleResize = () => renderPdf();
+        const canvasContainer = canvasContainerRef.current;
 
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [pdfUrl]); // Only re-run if pdfUrl changes
+        if (!canvasContainer) return;
+
+        // Render the PDF initially
+        renderPdf();
+
+        // Use ResizeObserver to detect actual size changes
+        const resizeObserver = new ResizeObserver(() => {
+            const newWidth = canvasContainer.offsetWidth;
+
+            if (newWidth !== currentViewportWidth.current) {
+                currentViewportWidth.current = newWidth;
+                renderPdf();
+            }
+        });
+
+        resizeObserver.observe(canvasContainer);
+
+        // Cleanup observer on unmount
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, [pdfUrl]); // Trigger only when pdfUrl changes
 
     return (
         <div

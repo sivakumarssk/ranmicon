@@ -9,7 +9,16 @@ import SecondDay from "./SecondDay";
 import ThirdDay from "./ThirdDay";
 import FourthDay from "./FourthDay";
 
-const EventSchedules: React.FC = () => {
+
+interface MainBannerProps {
+  data: {
+    [key: string]: any; // Replace with specific keys and types if known
+  };
+}
+
+
+
+const EventSchedules: React.FC<MainBannerProps> = ({data}) => {
   return (
     <>
       <div className="schedule-area bg-image ptb-120">
@@ -33,17 +42,17 @@ const EventSchedules: React.FC = () => {
                 <TabList>
                   <Tab>
                     Day 01
-                    <span>24 February 2025</span>
+                    <span>{data?.day1?.dayDate || 'day Date'}</span>
                   </Tab>
 
                   <Tab>
                     Day 02
-                    <span>25 February 2025</span>
+                    <span>{data?.day2?.dayDate || 'day Date'}</span>
                   </Tab>
 
                   <Tab>
                     Day 03
-                    <span>26 February 2025</span>
+                    <span>{data?.day3?.dayDate || 'day Date'}</span>
                   </Tab>
 
                   {/* <Tab>
@@ -53,15 +62,15 @@ const EventSchedules: React.FC = () => {
                 </TabList>
 
                 <TabPanel>
-                  <FirstDay />
+                  <FirstDay data={data}/>
                 </TabPanel>
 
                 <TabPanel>
-                  <SecondDay />
+                  <SecondDay data={data}/>
                 </TabPanel>
 
                 <TabPanel>
-                  <ThirdDay />
+                  <ThirdDay data={data}/>
                 </TabPanel>
 
                 {/* <TabPanel>
@@ -87,8 +96,8 @@ const EventSchedules: React.FC = () => {
 
         <div style={{display:'flex',justifyContent:'center',alignItems:'center', marginTop:'30px'}}>
 
-          <Link href="/Register" className="btn btn-primary">
-              Register Now!
+          <Link href="/agenda" className="btn btn-primary">
+              Agenda
             </Link>
         </div>
 

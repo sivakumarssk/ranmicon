@@ -21,8 +21,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "7th International Conference on PharmScience Research & Development February 24-26, 2025 | Boston, MA",
-  description: "7th International Conference on PharmScience Research & Development February 24-26, 2025 | Boston, MA ",
+  title: "EMDC Conference",
+  description: "PharmScience Research & Development on EMDC Conference",
 };
 
 export default function RootLayout({

@@ -1,10 +1,41 @@
+"use client";
+
 import Navbar from "@/components/Layouts/Navbar";
 import PageBanner from "@/components/Common/PageBanner";
 import Footer from "@/components/Layouts/Footer";
 import List from "@/components/dates/List";
 import './Page.css'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Image from "next/image";
 
 export default function Page() {
+
+    const [venue, setVenue] = useState({});
+
+    const venueApi = async () => {
+        try {
+            const response = await axios.get("https://admin.emdcconference.com/api/venue");
+            console.log(response, 'ghnfgh');
+            setVenue(response.data?.data[0]);
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.error || "An error occurred");
+        }
+    };
+
+    // console.log(homeData);
+
+    useEffect(() => {
+        venueApi()
+    }, [])
+
+    const getEmbeddableMapUrl = (url) => {
+        // For demonstration, returning static embed link
+        // Replace with logic to convert the URL if needed
+        return url;
+    };
+
     return (
         <>
             <Navbar />
@@ -21,7 +52,7 @@ export default function Page() {
             {/* <SpeakersOne /> */}
 
             <div className="venueMain">
-                <div>
+                {/* <div>
                     <h4>LODGING</h4>
                     <p>Lodging Packages (when selected with conference registration) are available with a special room rate at Double Tree by Hilton.
                         The special room rates will be available until the group block is sold out. For more information, please contact the conference coordinator.
@@ -35,9 +66,57 @@ export default function Page() {
                     </div><div style={{ display: 'flex', alignItems: 'center' }}>
                         <p><span style={{ fontWeight: '700' }}>Note 3 : </span>  Lodging Package only includes the room rent charges and rest all incidentals would be charged extra. Hotel reception would convey all the complimentary services if any at the time of check-in.</p>
                     </div>
-                </div>
+                </div> */}
 
                 <div>
+                    <h5 style={{
+                        textAlign: 'center', paddingBlock: '5px',
+                        background: '#dd5a40', color: 'white'
+                    }}>Address to the Hotel</h5>
+
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: venue?.address || "<span>No content available</span>",
+                        }}
+                    ></p>
+
+                    <div className="imgCon">
+
+                        <Image
+                            src={`https://admin.emdcconference.com${venue?.image1}`}
+                            alt={"accomidation"}
+                            width={380}
+                            height={250}
+                            className="imgVenue"
+                        />
+
+                        <Image
+                            src={`https://admin.emdcconference.com${venue?.image2}`}
+                            alt={"accomidation"}
+                            width={380}
+                            height={250}
+                            className="imgVenue"
+                        />
+
+                        <Image
+                            src={`https://admin.emdcconference.com${venue?.image3}`}
+                            alt={"accomidation"}
+                            width={380}
+                            height={520}
+                            className="imgVenue"
+                        />
+
+                        {/* <img className="imgVenue"
+                            src={} alt="accomidation" />
+                        <img className="imgVenue"
+                            src={`https://admin.emdcconference.com${venue?.image2}`} alt="accomidation" />
+                        <img className="imgVenue"
+                            src={`https://admin.emdcconference.com${venue?.image3}`} alt="accomidation" /> */}
+
+                    </div>
+                </div>
+
+                {/* <div>
                     <h5 style={{
                         textAlign: 'center', paddingBlock: '5px',
                         background: '#dd5a40', color: 'white'
@@ -70,7 +149,7 @@ export default function Page() {
                             src="/images/own/h3.jpg" alt="accomidation" />
 
                     </div>
-                </div>
+                </div> */}
 
 
                 <div>
@@ -80,7 +159,22 @@ export default function Page() {
                     }}>Directions to the Venue</h5>
 
                     <div>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3161.622846018029!2d-122.36282592427443!3d37.58749787203314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f76267d4e5085%3A0x6b0fcd75a3d901fb!2sNorthpark%20Apartments!5e0!3m2!1sen!2sin!4v1732778223374!5m2!1sen!2sin" width="100%" height="450" style={{ border: 0 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                    </div>
+                        {venue?.hotelLocation ? (
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: venue?.hotelLocation.replace(
+                                        /width="\d+"/g,
+                                        'width="100%"'
+                                    ).replace(
+                                        /height="\d+"/g,
+                                        'height="450"'
+                                    ),
+                                }}
+                            ></div>
+                        ) : (
+                            <p style={{ color: 'red' }}>Map is not available.</p>
+                        )}
+                    </div>
 
                 </div>
             </div>
