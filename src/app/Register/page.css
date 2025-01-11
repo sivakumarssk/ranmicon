@@ -16,14 +16,17 @@
   border-radius: 8px; /* Add rounded corners */
 }
 
-.plans-table {
+.plans-table,
+.accommodations-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
 .plans-table th,
-.plans-table td {
+.plans-table td,
+.accommodations-table th,
+.accommodations-table td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
@@ -44,33 +47,23 @@
   color: black;
 }
 
-.accommodations-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.accommodations-table th,
-.accommodations-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-}
-
 .accommodations-table th {
   background-color: #4caf50;
   color: white;
 }
 
-.plan-head{
+.plan-head {
   margin-top: 30px;
   margin-bottom: 20px;
 }
-.submit-button{
+
+.submit-button {
   justify-self: center;
   align-self: center;
 }
-.total-price-container,.submit-button{
+
+.total-price-container,
+.submit-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -78,7 +71,67 @@
   margin-block: 20px;
 }
 
-/* .plansSubCon{ */
-  /* margin-inline: 10%;
-  margin-block: 8%;
-} */
+/* Responsive Styles */
+@media screen and (max-width: 1024px) {
+  .form-section {
+    max-width: 90%;
+  }
+
+  .plans-table th,
+  .plans-table td,
+  .accommodations-table th,
+  .accommodations-table td {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .form-section {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .plans-table,
+  .accommodations-table {
+    font-size: 12px;
+  }
+
+  .plans-table th,
+  .plans-table td,
+  .accommodations-table th,
+  .accommodations-table td {
+    padding: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .plans-container {
+    padding: 10px;
+  }
+
+  .form-section {
+    padding: 10px;
+  }
+
+  .plans-table th,
+  .plans-table td,
+  .accommodations-table th,
+  .accommodations-table td {
+    font-size: 10px;
+    padding: 5px;
+  }
+
+  .plan-head {
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  .submit-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .total-price-container {
+    font-size: 14px;
+  }
+}

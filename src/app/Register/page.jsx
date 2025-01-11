@@ -374,7 +374,7 @@ export default function PlansPage() {
 
         <div className="total-price-container">
         <p>
-            By clicking "pay", you agree to the<span> </span>  
+            By clicking pay, you agree to the<span> </span>  
             <Link href="/policy/privacy/"> Privacy Policy</Link>,<span> </span> 
             <Link href="/policy/termsConditions/">Terms & conditions</Link>, and <span> </span> 
             <Link href="/policy/cancellation/">Cancellation Policy</Link>.

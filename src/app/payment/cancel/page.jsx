@@ -13,7 +13,7 @@ export default function Page() {
         <div className="d-table">
           <div className="d-table-cell">
             <Image
-              src="/images/own/paymentfailed.png/"
+              src="/images/own/paymentfailed.png"
               alt="Payment Cancelled"
               width={300}
               height={300}

@@ -53,7 +53,7 @@ export default function Page() {
            {
              Object.keys(dateData).map((key)=>{
             return(
-              <List heading={key} data={dateData[key]}/>
+              <List key={key} data={dateData[key]}/>
             )   
              })
             }

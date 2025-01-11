@@ -13,7 +13,7 @@ import Image from "next/image";
 
 import './List.css'
 
-const List = ({heading,data}) => {
+const List = ({key:heading,data}) => {
   return (
     <>
      <div className="listMain">
@@ -24,9 +24,9 @@ const List = ({heading,data}) => {
 
 
                 {
-                    data.map((each)=>{
+                    data.map((each,index)=>{
                         return(
-                            <div className="list-item-div">
+                            <div className="list-item-div" key={each?._id || index}>
                     <h4 style={{color:'#e79391'}}>{each.head}</h4>
                     <p style={{fontSize:'18px',gap:'50px'}}>
                     <i className="icofont-calendar"></i> {each.date}</p>
