@@ -13,7 +13,7 @@ import Image from "next/image";
 
 import './List.css'
 
-const List = ({key:heading,data}) => {
+const List = ({heading,data}) => {
   return (
     <>
      <div className="listMain">

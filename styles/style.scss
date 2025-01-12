@@ -77,8 +77,8 @@ a {
 } 
 .ptb-120 {
     padding: {
-        top: 120px;
-        bottom: 120px;
+        top: 60px;
+        bottom: 60px;
     }
 }
 img {
@@ -619,7 +619,7 @@ Navbar CSS
 Main Banner CSS
 =================================================*/
 .main-banner {
-    height: 100vh;
+    height: 85vh;
     position: relative;
     z-index: 1;
     background: {
@@ -3050,7 +3050,7 @@ Buy Tickets CSS
         opacity: .88;
     }
     &.ptb-120 {
-        padding-bottom: 200px;
+        padding-bottom: 100px;
     }
 }
 .buy-tickets {
@@ -3153,8 +3153,8 @@ Page Title CSS
     }
     text-align: center;
     padding: {
-        top: 250px;
-        bottom: 180px;
+        top: 200px;
+        bottom: 100px;
     }
     &::before {
         content: '';
@@ -4279,7 +4279,7 @@ Footer CSS
 .footer-area {
     background-color: $black-color;
     padding: {
-        top: 120px;
+        // top: 120px;
     }
 }
 .single-footer-widget {
@@ -4367,12 +4367,12 @@ Footer CSS
     }
 }
 .copyright-area {
-    border-top: 1px solid rgba(255,255,255,.1);
+    // border-top: 1px solid rgba(255,255,255,.1);
     padding: {
-        top: 40px;
-        bottom: 30px;
+        // top: 40px;
+        // bottom: 30px;
     }
-    margin-top: 100px;
+    margin-top: 50px;
     text-align: center;
 
     .logo {

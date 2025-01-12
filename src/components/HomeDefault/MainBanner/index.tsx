@@ -50,11 +50,8 @@ const MainBanner: React.FC<MainBannerProps> = ({ data }) => {
 
                 {/* <div className="headingCon"> */}
 
-                <p
-          dangerouslySetInnerHTML={{
-            __html: data?.conferenceHead || "<span>No content available</span>",
-          }}
-        ></p>
+                <h3>{data?.conferenceHead}</h3>
+                <h3 style={{color:'#cc3201'}}>{data?.conferenceHead2}</h3>
 
                 {/* </div> */}
 

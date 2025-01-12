@@ -5,12 +5,39 @@ import Link from "next/link";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
 import { menus } from "../../../libs/menus";
+import axios from "axios";
+
+interface HomeData {
+  logo: string;
+  // Add other properties you expect from the API response
+}
 
 const Navbar: React.FC = () => {
   const [menu, setMenu] = useState(true);
   const toggleNavbar = () => {
     setMenu(!menu);
   };
+
+  const [homeData, setHomeData] = useState<HomeData | null>(null); 
+
+  const homeApi = async (): Promise<void> => {
+    try {
+      const response = await axios.get("https://admin.emdcconference.com/api/");
+      // console.log(response,'ghnfgh');
+      setHomeData(response.data);
+    } catch (error: any) {
+      console.error(error);
+      alert(error.response?.data?.error || "An error occurred");
+    }
+  };
+
+
+
+  // console.log(homeData);
+  
+  useEffect(()=>{
+    homeApi()
+  },[])
 
   useEffect(() => {
     let elementId = document.getElementById("navbar");
@@ -37,7 +64,7 @@ const Navbar: React.FC = () => {
           <div className="container" style={{maxWidth:'1350px'}}>
             <Link href="/" className="navbar-brand">
               <Image
-                src="/images/own/logo.png"
+                src={homeData?.logo ? `https://admin.emdcconference.com${homeData.logo}` : '/images/own/proxima.png'}
                 alt="logo"
                 width={257}
                 height={257}

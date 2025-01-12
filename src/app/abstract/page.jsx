@@ -18,9 +18,27 @@ const Page = () => {
         city: "",
         country: "",
         interestedIn: "Poster Presentation",
-        sessions: "",
+        session: "",
         attachFile: null,
     });
+
+  const [countryData, setCountryData] = useState([]);
+    
+  const [guide, setGuide] = useState({});
+
+  const guideApi = async () => {
+    try {
+      const response = await axios.get("https://admin.emdcconference.com/api/guide-abstract");
+      console.log(response, 'ghnfgh');
+      setGuide(response.data);
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.error || "An error occurred");
+    }
+  };
+
+
+
 
     // Fetch topics from the API
     const abstractApi = async () => {
@@ -33,8 +51,24 @@ const Page = () => {
         }
     };
 
+    const fetchCountryData = async () => {
+        try {
+            const response = await axios.get("https://restcountries.com/v3.1/all");
+            const countries = response.data.map((country) => ({
+                name: country.name.common,
+                code: country.cca2,
+            }));
+            setCountryData(countries.sort((a, b) => a.name.localeCompare(b.name))); // Sort alphabetically
+        } catch (error) {
+            console.error(error);
+            alert("Failed to load country data.");
+        }
+    };
+
     useEffect(() => {
         abstractApi();
+        guideApi()
+        fetchCountryData();
     }, []);
 
     // Handle input changes
@@ -83,7 +117,7 @@ const Page = () => {
             <Navbar />
             <PageBanner
                 pageTitle="Abstract"
-                shortText="Get Your Tickets"
+                shortText=""
                 homePageUrl="/"
                 homePageText="Home"
                 activePageText="Abstract"
@@ -160,10 +194,12 @@ const Page = () => {
                     <div className="form-group">
                         <label htmlFor="country">Country</label>
                         <select id="country" name="country" value={formData.country} onChange={handleInputChange}>
-                            <option value="">Select country</option>
-                            <option value="USA">USA</option>
-                            <option value="India">India</option>
-                            <option value="UK">UK</option>
+                        <option value="">Select country</option>
+                            {countryData.map((country) => (
+                                <option key={country.code} value={country.name}>
+                                    {country.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-group">
@@ -176,12 +212,13 @@ const Page = () => {
                         >
                             <option value="Poster Presentation">Poster Presentation</option>
                             <option value="Oral Presentation">Oral Presentation</option>
-                            <option value="Workshop">Workshop</option>
+                            <option value="Workshop Presentation">Workshop Presentation</option>
+                            <option value="Virtual Presentation">Virtual Presentation</option>
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="sessions">Sessions</label>
-                        <select id="sessions" name="sessions" value={formData.sessions} onChange={handleInputChange}>
+                        <label htmlFor="session">session</label>
+                        <select id="session" name="session" value={formData.session} onChange={handleInputChange}>
                             <option value="">Select</option>
                             {topicData.map((topic, index) => (
                                 <option key={index} value={topic}>
@@ -215,6 +252,15 @@ const Page = () => {
                     </ul>
                 </div>
                 
+            </div>
+
+            <div style={{margin:'5%'}}>
+
+             <p
+                dangerouslySetInnerHTML={{
+                __html: guide?.abstract || "<span>No content available</span>",
+               }}
+             ></p>
             </div>
 
             {/* <div className="content-div" style={{ }}>
@@ -298,7 +344,7 @@ const Page = () => {
 
                     <h5>Note:</h5>
                     <p>
-                        The poster boards or the area designed for the sessions limits the dimension of the posters to the mentioned numbers.<br></br>
+                        The poster boards or the area designed for the session limits the dimension of the posters to the mentioned numbers.<br></br>
                         Meticulous checking is required in all posters for typographic and grammatical mistakes and image (usage of color) quality.<br></br>
                     </p>
                 </div>

@@ -52,8 +52,10 @@ export default function Page() {
             {/* <SpeakersOne /> */}
            {
              Object.keys(dateData).map((key)=>{
+              console.log(key)
+              
             return(
-              <List key={key} data={dateData[key]}/>
+              <List heading={key} data={dateData[key]}/>
             )   
              })
             }

@@ -53,6 +53,8 @@ const AgendaPage = () => {
             <div className="agendaContainer">
                 <div className="datesContainer">
                     {agendas.map((agenda) => (
+
+                        <>
                         <button
                             key={agenda._id}
                             className="btn btn-primary"
@@ -60,6 +62,8 @@ const AgendaPage = () => {
                         >
                             {agenda.date}
                         </button>
+                        </>
+                        
                     ))}
                 </div>
 

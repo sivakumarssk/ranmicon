@@ -16,7 +16,7 @@ const WhyUsData: WhyUs[] = [
     iconName: "icofont-headphone-alt-1",
     title: "Renowned Experts",
     shortText:
-      "Join visionary leaders and innovators in Pharma R&D, delivering insights that inspire and drive progress in the field.",
+      "Join visionary leaders and innovators, delivering insights that inspire and drive progress in the field.",
     btnText: "Read More",
     btnLink: "#",
   },
@@ -24,7 +24,7 @@ const WhyUsData: WhyUs[] = [
     iconName: "icofont-network-tower",
     title: "Networking",
     shortText:
-      "Connect with industry peers, fostering partnerships that propel pharmaceutical advancements and innovation.",
+      "Connect with industry peers, fostering partnerships that propel advancements and innovation.",
     btnText: "Read More",
     btnLink: "#",
   },
@@ -32,7 +32,7 @@ const WhyUsData: WhyUs[] = [
     iconName: "icofont-users-social",
     title: "New People",
     shortText:
-      "Meet diverse professionals, exchange ideas, and build relationships that spark innovation and growth in pharma science.",
+      "Meet diverse professionals, exchange ideas, and build relationships that spark innovation and growth",
     btnText: "Read More",
     btnLink: "#",
   },

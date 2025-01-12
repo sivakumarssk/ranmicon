@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.7.0",
     "@stripe/stripe-js": "^5.4.0",
     "@types/fslightbox-react": "^1.7.7",
     "axios": "^1.7.9",

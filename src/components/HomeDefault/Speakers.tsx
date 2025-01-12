@@ -43,16 +43,16 @@ const Speakers: React.FC<MainBannerProps> = ({data}) => {
                 {speakersData?.length > 0 ? (
                   speakersData.map((speaker, index) => (
                     <div className="col-lg-3 col-sm-6" key={index}>
-                      <div className="single-speakers" style={{marginBottom:'20px'}}>
+                      <div className="single-speakers" style={{marginBottom:'20px', marginInline:'30px'}}>
                         <Image
                           src={`https://admin.emdcconference.com${speaker.image}`}
                           alt={speaker?.name}
                           width={300}
-                          height={400}
-                          style={{maxHeight:'400px',height:'400px', width:'100%'}}
+                          height={250}
+                          style={{maxHeight:'250px',height:'250px', width:'100%'}}
                           className="img-fluid"
                         />
-                        <div className="speakers-content">
+                        <div className="speakers-content speakers-content-home">
                           <h3>{speaker?.name}</h3>
                           <span>{speaker?.description}</span>
                         </div>

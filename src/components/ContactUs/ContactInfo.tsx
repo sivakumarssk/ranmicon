@@ -1,8 +1,38 @@
 "use client";
 
-import React from "react"; 
+import axios from "axios";
+import Link from "next/link";
+import React, { useEffect, useState } from "react"; 
+
+interface HomeData {
+  // Define the structure of the expected data from the API response
+  [key: string]: any; // Replace with specific keys and types if known
+}
+
 
 const ContactInfo: React.FC = () => {
+
+  const [homeData, setHomeData] = useState<HomeData | null>(null); 
+
+  const homeApi = async (): Promise<void> => {
+    try {
+      const response = await axios.get("https://admin.emdcconference.com/api/");
+      // console.log(response,'ghnfgh');
+      setHomeData(response.data);
+    } catch (error: any) {
+      console.error(error);
+      alert(error.response?.data?.error || "An error occurred");
+    }
+  };
+
+
+
+  // console.log(homeData);
+  
+  useEffect(()=>{
+    homeApi()
+  },[])
+
   return (
     <>
       <div className="row justify-content-center">
@@ -14,8 +44,10 @@ const ContactInfo: React.FC = () => {
 
             <div className="content" style={{height:'120px'}}>
               <h4>Phone / Fax</h4>
-              <p>+1-469-854-2280/81</p>
-              <p>+1-844-395-41025</p>
+              <Link
+               href="tel:+1-667-444-3988" className="contact-authority" style={{justifySelf:'left'}}>
+                  <i className="icofont-phone"></i> +1-667-444-3988
+                </Link>
             </div>
           </div>
         </div>
@@ -28,7 +60,7 @@ const ContactInfo: React.FC = () => {
 
             <div className="content" style={{height:'120px'}}>
               <h4>E-mail</h4>
-              <p>pharma-rnd@uniscigroup.net</p>
+              <p>{homeData?.email ?`${homeData?.email}`:'contact@theproxima.org'}</p>
               <p></p>
             </div>
           </div>
@@ -42,10 +74,8 @@ const ContactInfo: React.FC = () => {
 
             <div className="content" style={{height:'120px'}}>
               <h4>Location</h4>
-              <p>USG United Scientific Group,
-A non-profit organization
-8105, Suite 112, Rasor Blvd, Plano
-TX 75024, USA</p>
+              <p>The Proxima, 1400 W Lombard Street PMB
+              1140 Baltimore, MD 21223, USA</p>
             </div>
           </div>
         </div>

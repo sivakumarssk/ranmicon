@@ -9,8 +9,8 @@
     }
     .ptb-120 {
         padding: {
-            top: 60px;
-            bottom: 60px;
+            top: 30px;
+            bottom: 30px;
         }
     }
 
@@ -787,7 +787,7 @@
 
     .buy-tickets-area {
         &.ptb-120 {
-            padding-bottom: 140px;
+            padding-bottom: 70px;
         }
     }
 
@@ -822,8 +822,8 @@
 
     .page-title-area {
         padding: {
-            top: 160px;
-            bottom: 100px;
+            top: 100px;
+            bottom: 80px;
         }
         h1 {
             font-size: 28px;
@@ -1034,7 +1034,7 @@
     }
 
     .footer-area {
-        padding-top: 60px;
+        // padding-top: 60px;
     }
     .single-footer-widget {
         margin-bottom: 30px;
@@ -1052,11 +1052,17 @@
     }
     .copyright-area {
         margin-top: 20px;
+        flex-direction: column;
+        max-width: 100%;
+
 
         ul {
             margin: 25px 0 18px;
         }
     }
+    .social-con{
+        max-width: 100%;
+      }
 
     .countdown1 {
         position: initial;
@@ -1160,8 +1166,8 @@
     }
     .ptb-120 {
         padding: {
-            top: 80px;
-            bottom: 80px;
+            top: 40px;
+            bottom: 40px;
         }
     }
     .event-countdown {
@@ -1674,7 +1680,7 @@
 
     .buy-tickets-area {
         &.ptb-120 {
-            padding-bottom: 175px;
+            padding-bottom: 85px;
         }
     }
 
@@ -1691,8 +1697,8 @@
 
     .page-title-area {
         padding: {
-            top: 160px;
-            bottom: 120px;
+            top: 100px;
+            bottom: 80px;
         }
         h1 {
             font-size: 30px;
@@ -1793,7 +1799,7 @@
     }
 
     .footer-area {
-        padding-top: 80px;
+        // padding-top: 80px;
     }
     .single-footer-widget {
         h3 {
@@ -1801,8 +1807,13 @@
         }
     }
     .copyright-area {
-        margin-top: 60px;
+        margin-top: 30px;
+        flex-direction: column;
+        max-width: 100%;
     }
+    .social-con{
+        max-width: 100%;
+      }
     .elkevent-nav {
         nav {
             .navbar-nav {
@@ -1838,7 +1849,7 @@
         margin-bottom: 30px;
     }
     .funfacts-area.ptb-120 {
-        padding-bottom: 50px;
+        padding-bottom: 25px;
     }
     .modal-video-body {
         padding: 0 30px;
@@ -2131,8 +2142,8 @@
         }
     }
     .page-title-area {
-        padding-top: 200px;
-        padding-bottom: 130px;
+        padding-top: 100px;
+        padding-bottom: 80px;
     }
 
     .slideshow-banner {
@@ -2169,7 +2180,7 @@
 
 @media only screen and (min-width : 1650px) {
     .main-banner {
-        height: 100vh;
+        height: 85vh;
     }
 
     .event-countdown {

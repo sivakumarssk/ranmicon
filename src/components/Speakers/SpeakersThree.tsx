@@ -27,10 +27,10 @@ const SpeakersThree: React.FC<MainBannerProps> = ({data}) => {
     <div className="speakers-area ptb-120 pb-180">
       <div className="container">
         <div className="section-title">
-          <span>Listen to the Speakers</span>
-          <h2>Who&apos;s Speaking</h2>
+          <span>Listen to the Committe</span>
+          <h2>Who&apos;s Committe</h2>
           <div className="bar"></div>
-          <div className="bg-title">Speakers</div>
+          <div className="bg-title">Committe</div>
         </div>
 
         <div className="row">

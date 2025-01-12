@@ -73,13 +73,13 @@ const ContactForm: React.FC = () => {
                   <h3>Stay Connected</h3>
                   <ul>
                     <li>
-                      <a href="https://www.facebook.com/" target="_blank">
+                      <a href="https://www.facebook.com/people/The-Proxima/61550951262213/ " target="_blank">
                         <i className="icofont-facebook"></i>
                         <span>Facebook</span>
                       </a>
                     </li>
                     <li>
-                      <a href="https://www.twitter.com/" target="_blank">
+                      <a href="https://x.com/the_proxima" target="_blank">
                         <i className="icofont-twitter"></i>
                         <span>Twitter</span>
                       </a>

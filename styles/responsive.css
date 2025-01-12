@@ -8,8 +8,8 @@
   }
 
   .ptb-120 {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   .section-title {
@@ -789,7 +789,7 @@
   }
 
   .buy-tickets-area.ptb-120 {
-    padding-bottom: 140px;
+    padding-bottom: 70px;
   }
 
   .subscribe-area::before {
@@ -822,8 +822,8 @@
   }
 
   .page-title-area {
-    padding-top: 160px;
-    padding-bottom: 100px;
+    padding-top: 100px;
+    padding-bottom: 80px;
   }
 
   .page-title-area h1 {
@@ -1014,7 +1014,7 @@
   }
 
   .footer-area {
-    padding-top: 60px;
+    /* padding-top: 60px; */
   }
 
   .single-footer-widget {
@@ -1036,6 +1036,12 @@
 
   .copyright-area {
     margin-top: 20px;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+  }
+  .social-con{
+    max-width: 100%;
   }
 
   .copyright-area ul {
@@ -1135,8 +1141,8 @@
   }
 
   .ptb-120 {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 
   .event-countdown {
@@ -1586,7 +1592,7 @@
   }
 
   .buy-tickets-area.ptb-120 {
-    padding-bottom: 175px;
+    padding-bottom: 85px;
   }
 
   .subscribe-area .subscribe-inner span {
@@ -1598,8 +1604,8 @@
   }
 
   .page-title-area {
-    padding-top: 160px;
-    padding-bottom: 120px;
+    padding-top: 100px;
+    padding-bottom: 80px;
   }
 
   .page-title-area h1 {
@@ -1695,7 +1701,7 @@
   }
 
   .footer-area {
-    padding-top: 80px;
+    /* padding-top: 80px; */
   }
 
   .single-footer-widget h3 {
@@ -1703,9 +1709,13 @@
   }
 
   .copyright-area {
-    margin-top: 60px;
+    margin-top: 30px;
+  flex-direction: column;
+  max-width: 100%;
   }
-
+  .social-con{
+    max-width: 100%;
+  }
   .elkevent-nav nav .navbar-nav .nav-item a {
     font-size: 15px;
     margin-left: 11px;
@@ -1958,8 +1968,8 @@
   }
 
   .page-title-area {
-    padding-top: 200px;
-    padding-bottom: 130px;
+    padding-top: 100px;
+    padding-bottom: 80px;
   }
 
   .slideshow-banner .main-banner-content {
@@ -1995,7 +2005,7 @@
 
 @media only screen and (min-width: 1650px) {
   .main-banner {
-    height: 100vh;
+    height: 85vh;
   }
 
   .event-countdown {

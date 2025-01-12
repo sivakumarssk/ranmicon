@@ -10,16 +10,23 @@ import "./page.css";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import Image from "next/image";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const stripePromise = loadStripe("pk_live_51NI3kpSJK88knjYmtyhvaIWqcao2Of3JwX49UqnIaL4VkNEbmfKzvCcaXcpGdZ5Cn522RpxFmUzQXG6ZlCdQ9qbD00tI3YPqJf"); // Replace with your Stripe publishable key
 
 export default function PlansPage() {
   const [plans, setPlans] = useState([]);
   const [activePlanId, setActivePlanId] = useState(null);
-  const [selectedParticipants, setSelectedParticipants] = useState({});
+  const [selectedParticipantType, setSelectedParticipantType] = useState(null);
+  const [highlightedPlanId, setHighlightedPlanId] = useState(null);
   const [accommodations, setAccommodations] = useState([]);
-  const [selectedAccommodations, setSelectedAccommodations] = useState([]);
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null);
+  const [participantPrice, setParticipantPrice] = useState(0);
+  const [accommodationPrice, setAccommodationPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [paymentGateway, setPaymentGateway] = useState("stripe");
+  const [paypalApprove, setPaypalApprove] = useState(false);
+  const [countryData, setCountryData] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "Dr.",
@@ -27,7 +34,7 @@ export default function PlansPage() {
     email: "",
     organization: "",
     phone: "",
-    city: "",
+    // city: "",
     country: "",
     interestedIn: "Poster Presentation",
     address: "",
@@ -41,6 +48,28 @@ export default function PlansPage() {
       [name]: value,
     }));
   };
+
+  const handlePaymentGatewayChange = (e) => {
+    setPaymentGateway(e.target.value);
+  };
+
+  const fetchCountryData = async () => {
+    try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        const countries = response.data.map((country) => ({
+            name: country.name.common,
+            code: country.cca2,
+        }));
+        setCountryData(countries.sort((a, b) => a.name.localeCompare(b.name))); // Sort alphabetically
+    } catch (error) {
+        console.error(error);
+        alert("Failed to load country data.");
+    }
+};
+
+useEffect(()=>{
+  fetchCountryData()
+},[])
 
   // Fetch plans and accommodations
   useEffect(() => {
@@ -61,37 +90,44 @@ export default function PlansPage() {
     axios.get("https://admin.emdcconference.com/api/getAccommodations").then((response) => setAccommodations(response.data));
   }, []);
 
-  // Handle participant selection
-  const handleParticipantSelection = (planId, participantId, price) => {
-    setSelectedParticipants({
-      [planId]: { participantId, price },
-    });
-  };
-
-  // Handle accommodation selection
-  const toggleAccommodationSelection = (accommodationId, name, price) => {
-    setSelectedAccommodations((prev) => {
-      const isSelected = prev.find((acc) => acc.id === accommodationId);
-
-      if (isSelected) {
-        return prev.filter((acc) => acc.id !== accommodationId); // Deselect
-      } else {
-        return [...prev, { id: accommodationId, name, price }]; // Select
-      }
-    });
-  };
-
-  // Calculate total price
+  // Update total price whenever participant or accommodation changes
   useEffect(() => {
-    const planPrice = selectedParticipants[activePlanId]?.price || 0;
-    const accommodationPrice = selectedAccommodations.reduce(
-      (sum, acc) => sum + acc.price,
-      0
-    );
-    const total = planPrice + accommodationPrice;
-    const totalWithProcessingFee = total + total * 0.02; // Add 2% processing fee
-    setTotalPrice(totalWithProcessingFee.toFixed(2));
-  }, [selectedParticipants, selectedAccommodations, activePlanId]);
+    const basePrice = participantPrice + accommodationPrice;
+    const totalWithFee = basePrice + basePrice * 0.02; // Add 2% processing fee
+    setTotalPrice(totalWithFee.toFixed(2));
+  }, [participantPrice, accommodationPrice]);
+
+  // Handle participant selection
+  const handleParticipantTypeSelection = (participantTypeId) => {
+    setSelectedParticipantType(participantTypeId);
+
+    const activePlan = plans.find((plan) => plan._id === activePlanId);
+    if (activePlan) {
+      const selectedPriceObj = activePlan.prices.find(
+        (price) => price.participationType._id === participantTypeId
+      );
+      if (selectedPriceObj) {
+        setParticipantPrice(selectedPriceObj.price); // Set the new participant price
+        setHighlightedPlanId(activePlan._id); // Highlight the active plan's selected price
+      } else {
+        setParticipantPrice(0); // No price for this participant type
+        setHighlightedPlanId(null);
+      }
+    }
+  };
+
+  // Handle accommodation selection and deselection
+  const handleAccommodationSelection = (accommodationId, name, price) => {
+    if (selectedAccommodation?.id === accommodationId) {
+      // Deselect if the same accommodation is selected again
+      setSelectedAccommodation(null);
+      setAccommodationPrice(0); // Reset accommodation price
+    } else {
+      // Select a new accommodation
+      setSelectedAccommodation({ id: accommodationId, name, price });
+      setAccommodationPrice(price); // Update accommodation price
+    }
+  };
 
   // Validate form inputs and selected plan
   const validateForm = () => {
@@ -99,10 +135,10 @@ export default function PlansPage() {
       !formData.name ||
       !formData.email ||
       !formData.phone ||
-      !formData.city ||
+      // !formData.city ||
       !formData.country ||
       !formData.address ||
-      !selectedParticipants[activePlanId]
+      !selectedParticipantType
     ) {
       alert("Please fill out all required fields and select a plan.");
       return false;
@@ -110,29 +146,26 @@ export default function PlansPage() {
     return true;
   };
 
+  
   // Submit form data and initiate payment
   const handleStripePayment = async (e) => {
-
-    e.preventDefault();
-
-    if (!validateForm()) return;
 
     const stripe = await stripePromise;
 
     try {
       // Prepare selected plan details
       const selectedPlanDetails = {
-        planId: activePlanId,
-        planName: plans.find((plan) => plan._id === activePlanId)?.name || "",
-        participantType: selectedParticipants[activePlanId]?.participantId || "",
-        price: selectedParticipants[activePlanId]?.price || 0,
+          planId: activePlanId,
+      planName: plans.find((plan) => plan._id === activePlanId)?.name || "",
+      participantType: selectedParticipantType || "",
+      price: participantPrice,
       };
 
       // Send data to the backend
       const response = await axios.post("https://admin.emdcconference.com/api/register-and-pay", {
         formData,
         selectedPlan: selectedPlanDetails,
-        selectedAccommodations,
+        selectedAccommodations:selectedAccommodation,
         lineItems: [
           {
             name: "Conference Plan and Accommodations",
@@ -143,14 +176,31 @@ export default function PlansPage() {
         ],
       });
 
+
       // Redirect to Stripe checkout
       window.location.href = response.data.url;
     } catch (error) {
-      console.error("Error initiating payment:", error.message);
+      console.error("Error initiating payment:", error);
       alert("Failed to start payment. Please try again.");
     }
   };
 
+  const handlePayment = async (e) => {
+    e.preventDefault();
+
+    if (!participantPrice) {
+      alert("Please select a valid plan.");
+      return;
+    }
+
+    if (!validateForm()) return;
+
+    if (paymentGateway === "stripe") {
+      handleStripePayment();
+    }else if(paymentGateway === "paypal"){
+      setPaypalApprove(true)
+    }
+  };
 
   return (
     <>
@@ -223,7 +273,7 @@ export default function PlansPage() {
               required
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="city">City</label>
             <input
               type="text"
@@ -234,14 +284,16 @@ export default function PlansPage() {
               placeholder="Enter your city name"
               required
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <label htmlFor="country">Country</label>
             <select id="country" name="country" required value={formData.country} onChange={handleInputChange}>
-              <option value="">Select country</option>
-              <option value="USA">USA</option>
-              <option value="India">India</option>
-              <option value="UK">UK</option>
+            <option value="">Select country</option>
+                            {countryData.map((country) => (
+                                <option key={country.code} value={country.name}>
+                                    {country.name}
+                                </option>
+                            ))}
             </select>
           </div>
           <div className="form-group">
@@ -249,7 +301,8 @@ export default function PlansPage() {
             <select id="interestedIn" name="interestedIn" required value={formData.interestedIn} onChange={handleInputChange}>
               <option value="Poster Presentation">Poster Presentation</option>
               <option value="Oral Presentation">Oral Presentation</option>
-              <option value="Workshop">Workshop</option>
+              <option value="Workshop Presentation">Workshop Presentation</option>
+              <option value="Virtual Presentation">Virtual Presentation</option>
             </select>
           </div>
           <div className="form-group">
@@ -270,6 +323,7 @@ export default function PlansPage() {
           {/* Plan Selection Table */}
           <div className="plansSubCon">
 
+          <div className="plansSubCon">
             <h1 className="plan-head">Plans</h1>
             {plans.length > 0 ? (
               <table className="plans-table">
@@ -277,7 +331,7 @@ export default function PlansPage() {
                   <tr>
                     <th>Type of Participation</th>
                     {plans.map((plan) => (
-                      <th key={plan._id} className={plan.isActive ? "active-plan" : "inactive-plan"}>
+                      <th key={plan._id}>
                         <div>{plan.name}</div>
                         <div>Before {new Date(plan.endDate).toLocaleDateString()}</div>
                       </th>
@@ -285,32 +339,36 @@ export default function PlansPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {plans[0].prices.map((participant, index) => (
+                  {plans[0]?.prices.map((participant, index) => (
                     <tr key={index}>
-                      <td>{participant.participationType.name}</td>
+                      <td>
+                        <label>
+                          <input
+                            type="radio"
+                            name="participant"
+                            onChange={() =>
+                              handleParticipantTypeSelection(participant.participationType._id)
+                            }
+                          />
+                          {participant.participationType.name}
+                        </label>
+                      </td>
                       {plans.map((plan) => {
                         const priceObj = plan.prices.find(
                           (p) => p.participationType._id === participant.participationType._id
                         );
+                        const isSelected =
+                          highlightedPlanId === plan._id &&
+                          selectedParticipantType === participant.participationType._id;
                         return (
-                          <td key={plan._id}>
-                            {priceObj ? (
-                              <label>
-                                <input
-                                  type="radio"
-                                  name={`participant-${participant.participationType._id}`}
-                                  value={priceObj._id}
-                                  disabled={!plan.isActive}
-                                  checked={selectedParticipants[plan._id]?.participantId === priceObj._id}
-                                  onChange={() =>
-                                    handleParticipantSelection(plan._id, priceObj._id, priceObj.price)
-                                  }
-                                />
-                                €{priceObj.price}
-                              </label>
-                            ) : (
-                              "-"
-                            )}
+                          <td
+                            key={plan._id}
+                            style={{
+                              backgroundColor: isSelected ? "#d4edda" : "transparent",
+                              textAlign: "center",
+                            }}
+                          >
+                            {priceObj?.price ? `€${priceObj?.price}` : "N/A"}
                           </td>
                         );
                       })}
@@ -321,7 +379,11 @@ export default function PlansPage() {
             ) : (
               <p>No plans available.</p>
             )}
+          </div>
 
+
+                     {/* Accommodations */}
+                     <div className="plansSubCon">
             <h1 className="plan-head">Accommodations</h1>
             {accommodations.length > 0 ? (
               <table className="accommodations-table">
@@ -339,9 +401,10 @@ export default function PlansPage() {
                       <td>{acc.price}</td>
                       <td>
                         <input
-                          type="checkbox"
-                          checked={selectedAccommodations.some((selected) => selected.id === acc._id)}
-                          onChange={() => toggleAccommodationSelection(acc._id, acc.name, acc.price)}
+                          type="radio"
+                          name="accommodation"
+                          checked={selectedAccommodation?.id === acc._id}
+                          onChange={() => handleAccommodationSelection(acc._id, acc.name, acc.price)}
                         />
                       </td>
                     </tr>
@@ -351,23 +414,125 @@ export default function PlansPage() {
             ) : (
               <p>No accommodations available.</p>
             )}
+          </div>
+
 
             {/* Display Total Price */}
-            <div className="total-price-container">
-              <Image
+            <div className="plansSubCon">
+
+           
+            <div className="form-group">
+            <h2 className="plan-head" style={{textAlign:'center',marginBlock:'30px'}}>Select Payment Gateway</h2>
+            <div className="paymentCon">
+              <div className="paymentSubCon">
+
+              <input
+                  type="radio"
+                  name="paymentGateway"
+                  value="stripe"
+                  checked={paymentGateway === "stripe"}
+                  onChange={handlePaymentGatewayChange}
+                />
+
+            <Image
                src={'/images/own/stripe.png'}
                alt={"stripe"}
-               width={200}
-               height={250}
+               width={150}
+               height={150}
                className="img-fluid"
               />
-              {/* <h2>Total Price: €{totalPrice}</h2> */}
-              <p>Note : (Includes 2% processing fee)</p>
+             
+              </div>
+
+              <div className="paymentSubCon">
+
+              <input
+                  type="radio"
+                  name="paymentGateway"
+                  value="paypal"
+                  checked={paymentGateway === "paypal"}
+                  onChange={handlePaymentGatewayChange}
+                />
+
+              <Image
+               src={'/images/own/PayPal.png'}
+               alt={"Paypal"}
+               width={150}
+               height={150}
+               className="img-fluid"
+              />
+              </div>
             </div>
           </div>
 
+
+              {/* <h2>Total Price: €{totalPrice}</h2> */}
+              <p style={{textAlign:'center'}}>Note : (Includes 2% processing fee)</p>
+            </div>
+            </div>
+     {/* PayPal Buttons */}
+     {paypalApprove && (
+      <div style={{maxWidth:'60%',margin:'0 auto'}}>
+            <PayPalScriptProvider
+              options={{
+                "client-id": "AWgsYN3w9HXVsqjXa2YqBtQe7iaSX4-V8G37B08dZmj37Fi-q7TzcNsKEKqDLgs2MF77xw5UGkgQOJPJ",
+                currency: "EUR",
+              }}
+            >
+              <PayPalButtons
+                style={{ layout: "vertical" }}
+                createOrder={async (data, actions) => {
+                  try {
+                    const response = await axios.post(
+                      "https://admin.emdcconference.com/api/create-paypal-order",
+                      {
+                        formData,
+                        selectedPlan: {
+                          planId: activePlanId,
+                          planName: plans.find((plan) => plan._id === activePlanId)?.name || "",
+                          participantType: selectedParticipantType || "",
+                          price: participantPrice,
+                        },
+                        selectedAccommodations: selectedAccommodation,
+                        totalPrice: totalPrice,
+                      }
+                    );
+                    return response.data.orderID;
+                  } catch (error) {
+                    console.error("Error creating PayPal order:", error);
+                    alert("Failed to create PayPal order. Please try again.");
+                  }
+                }}
+                onApprove={async (data, actions) => {
+                  try {
+                    const response = await axios.post(
+                      "https://admin.emdcconference.com/api/capture-paypal-order",
+                      { orderID: data.orderID }
+                    );
+                    if (response.data.success) {
+                      alert("Payment Successful!");
+                      window.location.href = "/success";
+                    } else {
+                      alert("Payment failed. Please try again.");
+                    }
+                  } catch (error) {
+                    console.error("Error capturing PayPal order:", error);
+                    alert("Failed to complete payment. Please try again.");
+                  }
+                }}
+                onError={(err) => {
+                  console.error("PayPal Error:", err);
+                  alert("Payment failed. Please try again.");
+                }}
+              />
+            </PayPalScriptProvider>
+            </div>
+          )}
+
+
+
           {/* <div className="form-group"> */}
-          <button onClick={(e) => handleStripePayment(e)} className="submit-button">
+          <button onClick={(e) => handlePayment(e)} className="submit-button">
             pay
           </button>
           {/* </div> */}
