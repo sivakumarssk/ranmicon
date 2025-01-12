@@ -55,7 +55,7 @@ export default function Page() {
               console.log(key)
               
             return(
-              <List heading={key} data={dateData[key]}/>
+              <List key={key} heading={key} data={dateData[key]}/>
             )   
              })
             }
