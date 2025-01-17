@@ -40,6 +40,20 @@ export default function PlansPage() {
     address: "",
   });
 
+  const [guide, setGuide] = useState({});
+
+  const guideApi = async () => {
+    try {
+      const response = await axios.get("https://admin.emdcconference.com/api/guide-plans");
+      console.log(response, 'ghnfgh');
+      setGuide(response.data);
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.error || "An error occurred");
+    }
+  };
+
+
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -69,6 +83,7 @@ export default function PlansPage() {
 
 useEffect(()=>{
   fetchCountryData()
+  guideApi()
 },[])
 
   // Fetch plans and accommodations
@@ -551,6 +566,15 @@ useEffect(()=>{
 
 
       </div>
+
+      <div style={{margin:'5%'}}>
+
+             <p
+                dangerouslySetInnerHTML={{
+                __html: guide?.plans || "<span>No content available</span>",
+               }}
+             ></p>
+            </div>
       <Footer />
     </>
   );
