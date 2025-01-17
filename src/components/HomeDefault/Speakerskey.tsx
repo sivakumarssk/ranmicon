@@ -47,9 +47,9 @@ const Speakerskey: React.FC<MainBannerProps> = ({data}) => {
                   <Image
                     src={`https://admin.emdcconference.com${speaker?.image}`}
                     alt={speaker?.name}
-                    width={300}
-                    height={250}
-                    style={{maxHeight:'250px',height:'250px', width:'100%'}}
+                    width={250}
+                    height={300}
+                    style={{maxHeight:'300px',height:'300px', width:'100%'}}
                     className="img-fluid"
                   />
                   <div className="speakers-content speakers-content-home">

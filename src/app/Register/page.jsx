@@ -36,7 +36,7 @@ export default function PlansPage() {
     phone: "",
     // city: "",
     country: "",
-    interestedIn: "Poster Presentation",
+    // interestedIn: "Poster Presentation",
     address: "",
   });
 
@@ -311,7 +311,7 @@ useEffect(()=>{
                             ))}
             </select>
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="interestedIn">Interested In</label>
             <select id="interestedIn" name="interestedIn" required value={formData.interestedIn} onChange={handleInputChange}>
               <option value="Poster Presentation">Poster Presentation</option>
@@ -319,7 +319,7 @@ useEffect(()=>{
               <option value="Workshop Presentation">Workshop Presentation</option>
               <option value="Virtual Presentation">Virtual Presentation</option>
             </select>
-          </div>
+          </div> */}
           <div className="form-group">
             <label htmlFor="address">Billing Address:</label>
             <input
@@ -490,8 +490,9 @@ useEffect(()=>{
       <div style={{maxWidth:'60%',margin:'0 auto'}}>
             <PayPalScriptProvider
               options={{
-                "client-id": "AWgsYN3w9HXVsqjXa2YqBtQe7iaSX4-V8G37B08dZmj37Fi-q7TzcNsKEKqDLgs2MF77xw5UGkgQOJPJ",
+                "client-id": "AU-tummDVhIf9NP0kDXhq7ocFMeC8t83rMVv-4Rfm2drpXITtxvHVgukqz27zgV-DRKFHd6mg1b8AacT",
                 currency: "EUR",
+                intent: "capture",
               }}
             >
               <PayPalButtons
@@ -518,23 +519,25 @@ useEffect(()=>{
                     alert("Failed to create PayPal order. Please try again.");
                   }
                 }}
-                onApprove={async (data, actions) => {
+                onApprove={async (data) => {
                   try {
-                    const response = await axios.post(
-                      "https://admin.emdcconference.com/api/capture-paypal-order",
-                      { orderID: data.orderID }
-                    );
+                    const response = await axios.post("https://admin.emdcconference.com/api/capture-paypal-order", {
+                      orderID: data.orderID,
+                    });
+                
                     if (response.data.success) {
+                      window.location.href = "/payment/success";
                       alert("Payment Successful!");
-                      window.location.href = "/success";
                     } else {
                       alert("Payment failed. Please try again.");
                     }
                   } catch (error) {
                     console.error("Error capturing PayPal order:", error);
-                    alert("Failed to complete payment. Please try again.");
+                    window.location.href = "/payment/cancel";
+                    alert(`Failed to complete payment: ${error.response?.data?.error || "Unknown error"}`);
                   }
                 }}
+                
                 onError={(err) => {
                   console.error("PayPal Error:", err);
                   alert("Payment failed. Please try again.");

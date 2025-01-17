@@ -8,7 +8,7 @@ export default function Page() {
     return (
         <>
             <Navbar />
-            <div className="success-area">
+            <div className="success-area" >
                 <div className="d-table">
                     <div className="d-table-cell">
                         <Image
@@ -30,6 +30,7 @@ export default function Page() {
         .success-area {
           text-align: center;
           padding: 100px 20px;
+          margin-top:7%;
         }
         h1 {
           color: green;

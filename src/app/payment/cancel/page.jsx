@@ -31,6 +31,7 @@ export default function Page() {
         .cancel-area {
           text-align: center;
           padding: 100px 20px;
+          margin-top:7%;
         }
         h1 {
           color: red;
