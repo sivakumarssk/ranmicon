@@ -525,8 +525,8 @@ useEffect(()=>{
                       orderID: data.orderID,
                     });
                 
-                    if (response.data.success) {
-                      window.location.href = "/payment/success";
+                    if (response.data) {
+                      window.location.replace("https://emdcconference.com/payment/success");
                       alert("Payment Successful!");
                     } else {
                       alert("Payment failed. Please try again.");

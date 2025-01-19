@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
                 alt="logo"
                 width={257}
                 height={257}
-                style={{maxHeight:'90px', width:'auto'}}
+                style={{maxHeight:'90px', maxWidth:'250px'}}
               />
             </Link>
 
