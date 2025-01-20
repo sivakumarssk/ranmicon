@@ -21,7 +21,7 @@ export default function Page() {
 
   const speakerApi = async (): Promise<void> => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/getAllSpeakers");
+      const response = await axios.get("https://admin.ranmicon.com/api/getAllSpeakers");
       // console.log(response,'ghnfgh');
       setSpeaker(response.data);
     } catch (error: any) {

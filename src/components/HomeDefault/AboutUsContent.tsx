@@ -15,10 +15,10 @@ interface MainBannerProps {
 const AboutUsContent: React.FC<MainBannerProps>  = ({data}) => {
 
   const getFullImageUrl = (path?: string): string => {
-    return path ? `https://admin.emdcconference.com${path}` : "/images/own/a1.jpg";
+    return path ? `https://admin.ranmicon.com${path}` : "/images/own/a1.jpg";
   };
   
-  // {console.log(`https://admin.emdcconference.com${data.aboutImage1}`)}
+  // {console.log(`https://admin.ranmicon.com${data.aboutImage1}`)}
   // console.log(data);
   
   return (

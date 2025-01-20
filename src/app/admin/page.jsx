@@ -8,7 +8,7 @@ export default function Page() {
 
   useEffect(() => {
     // Redirect to external admin URL
-    router.push("https://admin.emdcconference.com");
+    router.push("https://admin.ranmicon.com");
   }, [router]);
 
   return (

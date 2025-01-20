@@ -14,7 +14,7 @@ export default function Page() {
 
   const speakerApi = async () => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/cancellation");
+      const response = await axios.get("https://admin.ranmicon.com/api/cancellation");
       console.log(response, 'ghnfgh');
       setCancellation(response.data);
     } catch (error) {

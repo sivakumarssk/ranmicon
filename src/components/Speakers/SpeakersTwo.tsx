@@ -40,7 +40,7 @@ const SpeakersTwo: React.FC<MainBannerProps>  = ({data}) => {
               <div className="col-lg-3 col-sm-6" key={index}>
                 <div className="single-speakers" style={{marginBottom:'20px'}}>
                   <Image
-                    src={`https://admin.emdcconference.com${speaker.image}`}
+                    src={`https://admin.ranmicon.com${speaker.image}`}
                     alt={speaker.name}
                     width={300}
                     height={350}

@@ -44,7 +44,7 @@ export default function PlansPage() {
 
   const guideApi = async () => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/guide-plans");
+      const response = await axios.get("https://admin.ranmicon.com/api/guide-plans");
       console.log(response, 'ghnfgh');
       setGuide(response.data);
     } catch (error) {
@@ -90,7 +90,7 @@ useEffect(()=>{
   useEffect(() => {
     const today = new Date();
 
-    axios.get("https://admin.emdcconference.com/api/getPlans").then((response) => {
+    axios.get("https://admin.ranmicon.com/api/getPlans").then((response) => {
       const updatedPlans = response.data.map((plan) => ({
         ...plan,
         isActive:
@@ -102,7 +102,7 @@ useEffect(()=>{
       if (activePlan) setActivePlanId(activePlan._id);
     });
 
-    axios.get("https://admin.emdcconference.com/api/getAccommodations").then((response) => setAccommodations(response.data));
+    axios.get("https://admin.ranmicon.com/api/getAccommodations").then((response) => setAccommodations(response.data));
   }, []);
 
   // Update total price whenever participant or accommodation changes
@@ -177,7 +177,7 @@ useEffect(()=>{
       };
 
       // Send data to the backend
-      const response = await axios.post("https://admin.emdcconference.com/api/register-and-pay", {
+      const response = await axios.post("https://admin.ranmicon.com/api/register-and-pay", {
         formData,
         selectedPlan: selectedPlanDetails,
         selectedAccommodations:selectedAccommodation,
@@ -500,7 +500,7 @@ useEffect(()=>{
                 createOrder={async (data, actions) => {
                   try {
                     const response = await axios.post(
-                      "https://admin.emdcconference.com/api/create-paypal-order",
+                      "https://admin.ranmicon.com/api/create-paypal-order",
                       {
                         formData,
                         selectedPlan: {
@@ -521,7 +521,7 @@ useEffect(()=>{
                 }}
                 onApprove={async (data) => {
                   try {
-                    const response = await axios.post("https://admin.emdcconference.com/api/capture-paypal-order", {
+                    const response = await axios.post("https://admin.ranmicon.com/api/capture-paypal-order", {
                       orderID: data.orderID,
                     });
                 

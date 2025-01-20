@@ -21,8 +21,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "EMDC Conference",
-  description: "PharmScience Research & Development on EMDC Conference",
+  title: "Ranmicon",
+  description: "PharmScience Research & Development on Ranmicon",
 };
 
 export default function RootLayout({

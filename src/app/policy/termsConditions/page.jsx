@@ -14,7 +14,7 @@ export default function Page() {
 
   const speakerApi = async () => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/termsConditions");
+      const response = await axios.get("https://admin.ranmicon.com/api/termsConditions");
       console.log(response, 'ghnfgh');
       setTermsConditions(response.data);
     } catch (error) {

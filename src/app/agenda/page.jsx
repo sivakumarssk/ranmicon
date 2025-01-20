@@ -16,10 +16,10 @@ const AgendaPage = () => {
     useEffect(() => {
         const fetchAgendas = async () => {
             try {
-                const response = await axios.get("https://admin.emdcconference.com/api/getAgenda");
+                const response = await axios.get("https://admin.ranmicon.com/api/getAgenda");
                 setAgendas(response.data.agendas || []);
                 if (response.data.agendas?.length) {
-                    setSelectedPdf(`https://admin.emdcconference.com${response.data.agendas[0].pdf}`); // Set the first PDF as default
+                    setSelectedPdf(`https://admin.ranmicon.com${response.data.agendas[0].pdf}`); // Set the first PDF as default
                 }
             } catch (error) {
                 console.error("Error fetching agendas:", error);
@@ -31,7 +31,7 @@ const AgendaPage = () => {
     }, []);
 
     const handleDateClick = (pdfUrl) => {
-        setSelectedPdf(`https://admin.emdcconference.com${pdfUrl}`);
+        setSelectedPdf(`https://admin.ranmicon.com${pdfUrl}`);
     };
 
     console.log(selectedPdf);

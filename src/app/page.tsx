@@ -30,7 +30,7 @@ export default function Home() {
 
   const homeApi = async (): Promise<void> => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/");
+      const response = await axios.get("https://admin.ranmicon.com/api/");
       // console.log(response,'ghnfgh');
       setHomeData(response.data);
     } catch (error: any) {

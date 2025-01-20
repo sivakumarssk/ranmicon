@@ -28,7 +28,7 @@ const Page = () => {
 
   const guideApi = async () => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/guide-abstract");
+      const response = await axios.get("https://admin.ranmicon.com/api/guide-abstract");
       console.log(response, 'ghnfgh');
       setGuide(response.data);
     } catch (error) {
@@ -43,7 +43,7 @@ const Page = () => {
     // Fetch topics from the API
     const abstractApi = async () => {
         try {
-            const response = await axios.get("https://admin.emdcconference.com/api/topic");
+            const response = await axios.get("https://admin.ranmicon.com/api/topic");
             setTopicData(response.data);
         } catch (error) {
             console.error(error);
@@ -99,7 +99,7 @@ const Page = () => {
         }
 
         try {
-            const response = await axios.post("https://admin.emdcconference.com/api/uploadAbstract", formDataToSend, {
+            const response = await axios.post("https://admin.ranmicon.com/api/uploadAbstract", formDataToSend, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

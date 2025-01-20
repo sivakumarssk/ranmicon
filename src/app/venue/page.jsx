@@ -15,7 +15,7 @@ export default function Page() {
 
     const venueApi = async () => {
         try {
-            const response = await axios.get("https://admin.emdcconference.com/api/venue");
+            const response = await axios.get("https://admin.ranmicon.com/api/venue");
             console.log(response, 'ghnfgh');
             setVenue(response.data?.data[0]);
         } catch (error) {
@@ -83,7 +83,7 @@ export default function Page() {
                     <div className="imgCon">
 
                         <Image
-                            src={`https://admin.emdcconference.com${venue?.image1}`}
+                            src={`https://admin.ranmicon.com${venue?.image1}`}
                             alt={"accomidation"}
                             width={380}
                             height={250}
@@ -91,7 +91,7 @@ export default function Page() {
                         />
 
                         <Image
-                            src={`https://admin.emdcconference.com${venue?.image2}`}
+                            src={`https://admin.ranmicon.com${venue?.image2}`}
                             alt={"accomidation"}
                             width={380}
                             height={250}
@@ -99,7 +99,7 @@ export default function Page() {
                         />
 
                         <Image
-                            src={`https://admin.emdcconference.com${venue?.image3}`}
+                            src={`https://admin.ranmicon.com${venue?.image3}`}
                             alt={"accomidation"}
                             width={380}
                             height={520}
@@ -109,9 +109,9 @@ export default function Page() {
                         {/* <img className="imgVenue"
                             src={} alt="accomidation" />
                         <img className="imgVenue"
-                            src={`https://admin.emdcconference.com${venue?.image2}`} alt="accomidation" />
+                            src={`https://admin.ranmicon.com${venue?.image2}`} alt="accomidation" />
                         <img className="imgVenue"
-                            src={`https://admin.emdcconference.com${venue?.image3}`} alt="accomidation" /> */}
+                            src={`https://admin.ranmicon.com${venue?.image3}`} alt="accomidation" /> */}
 
                     </div>
                 </div>

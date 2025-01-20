@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
   const homeApi = async (): Promise<void> => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/");
+      const response = await axios.get("https://admin.ranmicon.com/api/");
       // console.log(response,'ghnfgh');
       setHomeData(response.data);
     } catch (error: any) {
@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
           <div className="container" style={{maxWidth:'1350px'}}>
             <Link href="/" className="navbar-brand">
               <Image
-                src={homeData?.logo ? `https://admin.emdcconference.com${homeData.logo}` : '/images/own/proxima.png'}
+                src={homeData?.logo ? `https://admin.ranmicon.com${homeData.logo}` : '/images/own/proxima.png'}
                 alt="logo"
                 width={257}
                 height={257}

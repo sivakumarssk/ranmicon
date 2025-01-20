@@ -14,7 +14,7 @@ export default function Page() {
 
   const speakerApi = async () => {
     try {
-      const response = await axios.get("https://admin.emdcconference.com/api/privacy");
+      const response = await axios.get("https://admin.ranmicon.com/api/privacy");
       console.log(response, 'ghnfgh');
       setPrivacy(response.data);
     } catch (error) {
